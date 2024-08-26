@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calcular Juros</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0"></script>
+    
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Calcular Juros Pagos</h1>
+        <form method="post" class="mb-4">
+            {% csrf_token %}
+            {% load form_tags %}
+            <div class="form-group">
+                {{ form.valor_compra.label_tag }} 
+                {{ form.valor_compra|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.porcentagem_juros_cartao.label_tag }}
+                {{ form.porcentagem_juros_cartao|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.porcentagem_juros_parcela.label_tag }}
+                {{ form.porcentagem_juros_parcela|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.numero_parcelas.label_tag }}
+                {{ form.numero_parcelas|add_class:"form-control" }}
+            </div>
+            <button type="submit" class="btn btn-primary">Calcular</button>
+            <a href="{% url 'calcular_juros' %}" class="btn btn-secondary">Zerar Tudo</a>
+        </form>
+
+        {% if resultado %}
+            <h2>Resultado</h2>
+            <ul class="list-group">
+                <li class="list-group-item">Valor total com juros no cartão: R$ {{ resultado.valor_total_cartao }}</li>
+                <li class="list-group-item">Juros pagos no cartão: R$ {{ resultado.juros_cartao }}</li>
+                <li class="list-group-item">Valor da parcela: R$ {{ resultado.valor_parcela }}</li>
+                <li class="list-group-item">Juros pagos nas parcelas: R$ {{ resultado.juros_parcela_total }}</li>
+                <li class="list-group-item">Total de juros pagos: R$ {{ resultado.total_juros }}</li>
+            </ul>
+        {% endif %}
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
